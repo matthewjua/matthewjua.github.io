@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica</title>
+</head>
+
+<body>
+    <style>
+        .imagen {
+            filter: brightness(0)
+        }
+    </style>
+
+    <body>
+        <div class="contenedor"></div>
+
+        <script>
+            let $ = id => document.querySelector(id);
+            let $$ = id => document.querySelectorAll(id);
+            const contenedor = $('.contenedor');
+            let globalData = [];
+
+            function validate(id) {
+                globalData.forEach((pokemon, index) => {
+                    if (pokemon.name === $(`#pkm-${id}`).value) {
+                        console.log('Adivino el pokemon');
+                        $(`#pkm-${id}`).disabled = true;
+                    }
+                });
+            }
+            async function getDataPokemon(id) {
+                let request = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                let response = await request.json();
+                const tarjeta = `
+                    <div class="pokemon">
+                        <div class="nombre>${response.name}</div>
+                        <img src="${response.sprites.front_default}" alt="Imagen" class="imagen"/>
+                        <input type="text" id="pkm-${id})"/>
+                        <button onclick="validate(${id})">Verificar</button>
+                    </div>`;
+                contenedor.innerHTML += tarjeta;
+                globalData.push(response);
+            }
+            getDataPokemon(1);
+            getDataPokemon(2);
+            getDataPokemon(3);
+        </script>
+    </body>
+
+</html>
