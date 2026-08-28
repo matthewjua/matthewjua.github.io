@@ -9,6 +9,10 @@
         .imagen {
             filter: brightness(0)
         }
+
+        .encontrado {
+            filter: brightness(1)
+        }
     </style>
 </head>
 
@@ -24,8 +28,9 @@
         function validate(id) {
             globalData.forEach((pokemon, index) => {
                 if (pokemon.name === $(`#pkm-${id}`).value) {
-                    console.log('Adivino el pokemon');
+                    console.log("Adivino el pokemon")
                     $(`#pkm-${id}`).disabled = true;
+                    $(`.img-${id}`).classList.add('encontrado');
                 }
             });
         }
@@ -35,16 +40,16 @@
             const tarjeta = `
                     <div class="pokemon">
                         <div class="nombre">${response.name}</div>
-                        <img src="${response.sprites.front_default}" alt="Imagen" class="imagen"/>
-                        <input type="text" id="pkm-${id})"/>
+                        <img src="${response.sprites.front_default}" alt="Imagen" class="imagen img-${id}"/>
+                        <input type="text" id="pkm-${id}" />
                         <button onclick="validate('${id}')">Verificar</button>
                     </div>`;
             contenedor.innerHTML += tarjeta;
             globalData.push(response);
         }
-        getDataPokemon(1);
-        getDataPokemon(2);
-        getDataPokemon(3);
+        for (let i = 1; i <= 15; i++) {
+            getDataPokemon(i);
+        } 
     </script>
 </body>
 
